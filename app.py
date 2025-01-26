@@ -7,10 +7,12 @@ st.set_page_config(page_title="DeepSeek Chat", layout="wide")
 st.title("🤖 DeepSeek API Chat")
 st.caption("DeepSeek API를 사용한 스트리밍 채팅 인터페이스")
 
+# DeepSeek API 키 설정
+api_key = st.secrets["DEEPSEEK_API_KEY"]
+
 # 사이드바 설정
 with st.sidebar:
     st.header("⚙️ 설정")
-    api_key = "sk-2480729ef025419495f41d471cd5b895"
 
     model_version = st.selectbox(
         "모델 버전", ["deepseek-chat", "deepseek-coder"], index=0
@@ -50,10 +52,9 @@ if prompt := st.chat_input("메시지를 입력하세요..."):
                     "Content-Type": "application/json",
                 }
 
-                # 수정된 부분: messages 파라미터
                 payload = {
                     "model": model_version,
-                    "messages": st.session_state.messages,  # 전체 메시지 사용
+                    "messages": st.session_state.messages,
                     "temperature": temperature,
                     "max_tokens": max_tokens,
                     "stream": True,
